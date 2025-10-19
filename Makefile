@@ -9,7 +9,7 @@ MKDIR           := mkdir -p
 
 setup:
 	@if [ ! -f $(DOTENV_PATH) ]; then \
-	    cp $(CWD)/sample $(DOTENV_PATH) && \
+	    cp $(CWD)/.env.sample $(DOTENV_PATH) && \
 	    echo ".env file not found. Created .env from sample."; \
 	fi
 

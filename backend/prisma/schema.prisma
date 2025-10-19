@@ -16,11 +16,13 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
+  profilePic String
   firstName String 
   lastName String 
   userName String @unique
   email String @unique
   password String
+  FavoriteSongs Songs[] @relation("favoritedSongs")
   birthday DateTime
   createdAt DateTime @default(now())
 }
@@ -29,7 +31,7 @@ model Friendship {
   id Int @id @default(autoincrement())
   userId1 Int
   userId2 Int
-  status String
+  status FriendshipStatus @default(NOTFRIEND)
   createdAt DateTime @default(now())
 }
 
@@ -39,5 +41,15 @@ model Songs {
   title String
   artist String
   genre String
-  album String
+  album Stringls
+  
+  FavoritedUser Int?
+  FavoritedBy User? @relation("favoritedSongs", fields: [FavoritedUser], references: [id])
+}
+
+enum FriendshipStatus {
+  NOTFRIEND
+  FRIEND
+  PENDING
+  BLOCKED
 }
