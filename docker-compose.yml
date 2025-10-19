@@ -1,21 +1,29 @@
 networks:
   musicfy_network:
     driver: bridge
+volumes:
+  postgres_data:
 services:
-  # postgres:
-  #   image: postgres:15-alpine
-  #   container_name: database
-  #   ports :
-  #     - "5432:5432"
-  #   restart: always
-  #   networks:
-  #     - musicfy_network
+  postgres:
+    image: postgres:15-alpine
+    container_name: database
+    ports :
+      - "5432:5432"
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - musicfy_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   backend:
     container_name: backend
     build: ./backend/
     ports:
       - "3000:3000"
-    environment:
+    env_file:
       - .env
     networks:
       - musicfy_network
+    depends_on:
+      - postgres
