@@ -22,7 +22,6 @@ model User {
   userName String @unique
   email String @unique
   password String
-  FavoriteSongs Songs[] @relation("favoritedSongs")
   birthday DateTime
   createdAt DateTime @default(now())
 }
@@ -34,6 +33,12 @@ model Friendship {
   status FriendshipStatus @default(NOTFRIEND)
   createdAt DateTime @default(now())
 }
+model LikedSongs {
+  id Int @id @default(autoincrement())
+  userId Int
+  songId Int
+  createdAt DateTime @default(now())
+}
 
 model Songs {
   id Int @id @default(autoincrement())
@@ -41,10 +46,7 @@ model Songs {
   title String
   artist String
   genre String
-  album Stringls
-  
-  FavoritedUser Int?
-  FavoritedBy User? @relation("favoritedSongs", fields: [FavoritedUser], references: [id])
+  album String
 }
 
 enum FriendshipStatus {
